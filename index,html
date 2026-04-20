@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio · Data Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --c1:#0a0a0a;--c2:#f5f2ee;--c3:#e8e3db;--c4:#d4cfc6;
+  --accent:#1a6b4a;--accent2:#c8f5e0;--accent3:#0f4a34;
+  --mono:'DM Mono',monospace;
+  --serif:'DM Serif Display',serif;
+  --sans:'DM Sans',sans-serif;
+  --radius:6px;
+}
+body{background:var(--c2);color:var(--c1);font-family:var(--sans);font-size:15px;line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{display:flex;justify-content:space-between;align-items:center;padding:1.4rem 3rem;border-bottom:1px solid var(--c3);position:sticky;top:0;background:var(--c2);z-index:50}
+.logo{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.06em;color:var(--accent)}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{font-size:13px;text-decoration:none;color:var(--c1);opacity:.55;letter-spacing:.04em;transition:opacity .2s}
+.nav-links a:hover{opacity:1}
+
+/* HERO */
+.hero{padding:6rem 3rem 4rem;max-width:960px}
+.hero-tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1.4rem;display:flex;align-items:center;gap:8px}
+.hero-tag::before{content:'';width:22px;height:1px;background:var(--accent)}
+h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);line-height:1.05;font-weight:400;margin-bottom:1.4rem}
+h1 em{font-style:italic;color:var(--accent)}
+.hero-desc{font-size:16px;opacity:.62;max-width:480px;line-height:1.85;margin-bottom:2.4rem}
+.cta-row{display:flex;gap:1rem;flex-wrap:wrap}
+.btn{padding:.7rem 1.6rem;font-size:13px;font-family:var(--mono);letter-spacing:.04em;border:1px solid var(--c1);background:transparent;cursor:pointer;border-radius:2px;transition:all .2s;text-decoration:none;display:inline-block;color:var(--c1)}
+.btn:hover{background:var(--c1);color:var(--c2)}
+.btn-fill{background:var(--accent);border-color:var(--accent);color:white}
+.btn-fill:hover{background:var(--accent3);border-color:var(--accent3);color:white}
+
+/* SECTIONS */
+.section{padding:4rem 3rem;border-top:1px solid var(--c3)}
+.section-label{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:2rem;display:flex;align-items:center;gap:8px}
+.section-label::before{content:'';width:22px;height:1px;background:var(--accent)}
+h2{font-family:var(--serif);font-size:2rem;font-weight:400;margin-bottom:1.4rem}
+
+/* SKILLS */
+.skills-grid{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.4rem}
+.skill-pill{padding:.45rem 1.2rem;border:1px solid var(--c3);border-radius:100px;font-size:13px;font-family:var(--mono);background:white;transition:all .2s}
+.skill-pill.featured{background:var(--accent2);border-color:#5dd4a0;color:var(--accent3);font-weight:500}
+.skill-pill:hover{border-color:var(--accent);color:var(--accent)}
+
+/* PROJECT CARDS */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;margin-top:1.5rem}
+.project-card{background:white;border:1px solid var(--c3);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .28s;position:relative}
+.project-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.09)}
+.card-thumb{width:100%;height:180px;overflow:hidden;background:var(--c3);position:relative}
+.card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.project-card:hover .card-thumb img{transform:scale(1.04)}
+.card-thumb-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--c4)}
+.card-body{padding:1.4rem}
+.card-tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem}
+.card-title{font-family:var(--serif);font-size:1.18rem;font-weight:400;margin-bottom:.6rem;line-height:1.3}
+.card-desc{font-size:13px;opacity:.62;line-height:1.7;margin-bottom:1rem}
+.card-tools{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1rem}
+.tool-badge{font-family:var(--mono);font-size:10px;padding:2px 10px;background:var(--c3);border-radius:100px;letter-spacing:.03em}
+.card-cta{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.05em;display:flex;align-items:center;gap:6px;transition:gap .2s}
+.project-card:hover .card-cta{gap:10px}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,10,10,.55);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--c2);border-radius:10px;max-width:860px;width:100%;position:relative;transform:translateY(20px);transition:transform .3s;overflow:hidden}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-close{position:absolute;top:1.2rem;right:1.2rem;width:36px;height:36px;border:1px solid var(--c3);border-radius:50%;background:var(--c2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--c1);z-index:10;transition:all .2s;line-height:1}
+.modal-close:hover{background:var(--c1);color:var(--c2)}
+
+/* Gallery */
+.modal-gallery{width:100%;background:var(--c3);position:relative;overflow:hidden}
+.gallery-track{display:flex;transition:transform .4s ease}
+.gallery-slide{min-width:100%;height:340px;overflow:hidden;position:relative;background:var(--c3)}
+.gallery-slide img{width:100%;height:100%;object-fit:cover}
+.gallery-slide-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;font-family:var(--mono);font-size:12px;color:var(--c4);letter-spacing:.04em;text-align:center;padding:1rem}
+.gallery-placeholder-icon{font-size:2rem;opacity:.4}
+.gallery-nav{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:5}
+.gallery-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:all .2s;border:none;padding:0}
+.gallery-dot.active{background:white;width:18px;border-radius:3px}
+.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;background:rgba(245,242,238,.92);border:1px solid var(--c3);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;z-index:5;transition:all .2s}
+.gallery-arrow:hover{background:var(--c2)}
+.gallery-arrow.prev{left:1rem}
+.gallery-arrow.next{right:1rem}
+
+/* Modal content */
+.modal-content{padding:2rem 2.5rem 2.5rem}
+.modal-meta{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;flex-wrap:wrap}
+.modal-tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent2);padding:3px 12px;border-radius:100px}
+.modal-date{font-family:var(--mono);font-size:11px;opacity:.4}
+.modal-title{font-family:var(--serif);font-size:2rem;font-weight:400;margin-bottom:1rem;line-height:1.15}
+.modal-tools{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.5rem}
+.modal-section-title{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.4;margin:1.5rem 0 .6rem}
+.modal-text{font-size:14px;line-height:1.85;opacity:.72}
+.modal-text p{margin-bottom:.8rem}
+.modal-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.8rem;margin:1rem 0}
+.metric{background:white;border:1px solid var(--c3);border-radius:var(--radius);padding:1rem}
+.metric-num{font-family:var(--serif);font-size:1.6rem;color:var(--accent);display:block}
+.metric-label{font-size:11px;font-family:var(--mono);opacity:.5;letter-spacing:.03em}
+.modal-code{background:#1a1a1a;border-radius:var(--radius);padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.modal-code pre{font-family:var(--mono);font-size:12px;color:#e8e3db;line-height:1.75;white-space:pre}
+.modal-code .kw{color:#5dd4a0}
+.modal-code .fn{color:#c8f5e0}
+.modal-code .cm{color:#5f5e5a}
+.modal-code .st{color:#f5c78a}
+.modal-footer{display:flex;gap:1rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--c3);flex-wrap:wrap}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.about-text p{opacity:.68;line-height:1.9;margin-bottom:1rem;font-size:14px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.stat-card{background:white;border:1px solid var(--c3);border-radius:var(--radius);padding:1.2rem}
+.stat-num{font-family:var(--serif);font-size:1.9rem;color:var(--accent);display:block}
+.stat-label{font-size:11px;opacity:.5;font-family:var(--mono);letter-spacing:.04em}
+
+/* CONTACT */
+.contact-section{padding:4rem 3rem;border-top:1px solid var(--c3);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:2rem}
+.contact-title{font-family:var(--serif);font-size:2.4rem;max-width:380px;line-height:1.15}
+.contact-links{display:flex;flex-direction:column;gap:1rem}
+.contact-link{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--c1);opacity:.55;font-size:14px;transition:opacity .2s}
+.contact-link:hover{opacity:1}
+.contact-link-icon{width:34px;height:34px;border:1px solid var(--c3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:500;flex-shrink:0}
+
+footer{padding:1.4rem 3rem;border-top:1px solid var(--c3);display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;opacity:.35;letter-spacing:.04em}
+
+@media(max-width:768px){
+  nav,footer{padding:1rem 1.5rem}
+  .hero,.section,.contact-section{padding-left:1.5rem;padding-right:1.5rem}
+  .hero{padding-top:3.5rem}
+  .about-grid{grid-template-columns:1fr}
+  .contact-section{flex-direction:column;align-items:flex-start}
+  h1{font-size:2.4rem}
+  .modal-content{padding:1.5rem}
+  .modal-title{font-size:1.5rem}
+  .gallery-slide{height:220px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">DA.portfolio</div>
+  <div class="nav-links">
+    <a href="#projets">projets</a>
+    <a href="#competences">compétences</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">Data Analyst · Montréal, QC</div>
+  <h1>Transformer<br>les données en<br><em>décisions.</em></h1>
+  <p class="hero-desc">Passionnée par l'exploration de données complexes et la création d'insights clairs et actionnables à travers SQL et la visualisation.</p>
+  <div class="cta-row">
+    <a href="#projets" class="btn btn-fill">Voir mes projets</a>
+    <a href="#contact" class="btn">Me contacter</a>
+  </div>
+</section>
+
+<section class="section" id="competences">
+  <div class="section-label">Compétences</div>
+  <h2>Boîte à outils</h2>
+  <div class="skills-grid">
+    <span class="skill-pill featured">SQL</span>
+    <span class="skill-pill featured">PostgreSQL</span>
+    <span class="skill-pill featured">MySQL</span>
+    <span class="skill-pill">Excel avancé</span>
+    <span class="skill-pill">Google Sheets</span>
+    <span class="skill-pill">Tableau</span>
+    <span class="skill-pill">Power BI</span>
+    <span class="skill-pill">Data cleaning</span>
+    <span class="skill-pill">EDA</span>
+    <span class="skill-pill">Reporting</span>
+    <span class="skill-pill">Dashboards</span>
+    <span class="skill-pill">KPI / Métriques</span>
+  </div>
+</section>
+
+<section class="section" id="projets">
+  <div class="section-label">Projets</div>
+  <h2>Analyses récentes</h2>
+  <div class="projects-grid">
+
+    <div class="project-card" onclick="openModal('p1')">
+      <div class="card-thumb">
+        <div class="card-thumb-placeholder">Aperçu du projet</div>
+        <!-- <img src="images/projet1.png" alt="Analyse ventes"> -->
+      </div>
+      <div class="card-body">
+        <div class="card-tag">SQL · Commerce</div>
+        <div class="card-title">Analyse des performances de ventes</div>
+        <div class="card-desc">Segmentation clients et tendances saisonnières sur 100 000+ transactions.</div>
+        <div class="card-tools">
+          <span class="tool-badge">SQL</span>
+          <span class="tool-badge">Tableau</span>
+          <span class="tool-badge">Kaggle</span>
+        </div>
+        <div class="card-cta">Voir le détail <span>→</span></div>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openModal('p2')">
+      <div class="card-thumb">
+        <div class="card-thumb-placeholder">Aperçu du projet</div>
+        <!-- <img src="images/projet2.png" alt="Dashboard RH"> -->
+      </div>
+      <div class="card-body">
+        <div class="card-tag">SQL · Ressources humaines</div>
+        <div class="card-title">Dashboard RH &amp; turnover</div>
+        <div class="card-desc">Facteurs de rétention et risques de départ visualisés en Power BI.</div>
+        <div class="card-tools">
+          <span class="tool-badge">MySQL</span>
+          <span class="tool-badge">Power BI</span>
+          <span class="tool-badge">Excel</span>
+        </div>
+        <div class="card-cta">Voir le détail <span>→</span></div>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openModal('p3')">
+      <div class="card-thumb">
+        <div class="card-thumb-placeholder">Aperçu du projet</div>
+        <!-- <img src="images/projet3.png" alt="Cohortes"> -->
+      </div>
+      <div class="card-body">
+        <div class="card-tag">SQL · Finance</div>
+        <div class="card-title">Analyse de cohortes clients</div>
+        <div class="card-desc">Rétention et LTV sur 12 mois par cohorte d'acquisition.</div>
+        <div class="card-tools">
+          <span class="tool-badge">PostgreSQL</span>
+          <span class="tool-badge">Google Sheets</span>
+        </div>
+        <div class="card-cta">Voir le détail <span>→</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="apropos">
+  <div class="section-label">À propos</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <h2>Mon parcours</h2>
+      <p>Data analyst avec une solide maîtrise de SQL, je me spécialise dans la transformation de données brutes en insights stratégiques pour aider les équipes à prendre de meilleures décisions.</p>
+      <p>Mon approche combine rigueur analytique et sens de la narration visuelle — parce qu'un bon graphique vaut mieux qu'un long rapport.</p>
+      <p>Basée à Montréal, disponible pour des opportunités en tant qu'analyste de données, consultante ou collaboratrice sur des projets data.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><span class="stat-num">SQL</span><span class="stat-label">Expertise principale</span></div>
+      <div class="stat-card"><span class="stat-num">3+</span><span class="stat-label">Projets réalisés</span></div>
+      <div class="stat-card"><span class="stat-num">2</span><span class="stat-label">Outils de viz</span></div>
+      <div class="stat-card"><span class="stat-num">FR/EN</span><span class="stat-label">Bilingue</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT — infos de Marème Ndiaye -->
+<section class="contact-section" id="contact">
+  <div class="contact-title">Travaillons<br><em style="font-family:var(--serif)">ensemble.</em></div>
+  <div class="contact-links">
+    <a href="https://www.linkedin.com/in/marème-ndiaye-33a26115a" class="contact-link" target="_blank">
+      <div class="contact-link-icon">in</div>
+      linkedin.com/in/marème-ndiaye-33a26115a
+    </a>
+    <a href="https://github.com/nmareme" class="contact-link" target="_blank">
+      <div class="contact-link-icon">gh</div>
+      github.com/nmareme
+    </a>
+    <a href="mailto:ndiaye.maareme@gmail.com" class="contact-link">
+      <div class="contact-link-icon">@</div>
+      ndiaye.maareme@gmail.com
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span>Portfolio · Marème Ndiaye · Data Analyst</span>
+  <span>Montréal, QC · 2025</span>
+</footer>
+
+
+<!-- MODALES -->
+
+<!-- MODALE 1 -->
+<div class="modal-overlay" id="modal-p1" onclick="closeOnOverlay(event,'p1')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('p1')">✕</button>
+    <div class="modal-gallery">
+      <div class="gallery-track" id="track-p1">
+        <div class="gallery-slide">
+          <div class="gallery-slide-placeholder">
+            <div class="gallery-placeholder-icon">🖼️</div>
+            Aperçu du dashboard<br><small>Remplacez par &lt;img src="images/p1-slide1.png"&gt;</small>
+          </div>
+        </div>
+        <div class="gallery-slide">
+          <div class="gallery-slide-placeholder">
+            <div class="gallery-placeholder-icon">📊</div>
+            Dashboard Tableau<br><small>Remplacez par &lt;img src="images/p1-slide2.png"&gt;</small>
+          </div>
+        </div>
+        <div class="gallery-slide">
+          <div class="gallery-slide-placeholder">
+            <div class="gallery-placeholder-icon">📈</div>
+            Graphique tendances<br><small>Remplacez par &lt;img src="images/p1-slide3.png"&gt;</small>
+          </div>
+        </div>
+      </div>
+      <button class="gallery-arrow prev" onclick="slide('p1',-1)">‹</button>
+      <button class="gallery-arrow next" onclick="slide('p1',1)">›</button>
+      <div class="gallery-nav" id="dots-p1"></div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-meta">
+        <span class="modal-tag">SQL · Commerce</span>
+        <span class="modal-date">Mars 2025</span>
+      </div>
+      <div class="modal-title">Analyse des performances de ventes</div>
+      <div class="modal-tools">
+        <span class="tool-badge">SQL</span>
+        <span class="tool-badge">Tableau</span>
+        <span class="tool-badge">Kaggle</span>
+        <span class="tool-badge">Data cleaning</span>
+      </div>
+      <div class="modal-section-title">Contexte &amp; objectif</div>
+      <div class="modal-text">
+        <p>Un dataset Kaggle de commerce en ligne contenant 100 000+ transactions sur 2 ans. L'objectif était d'identifier les segments clients les plus rentables, les produits à forte marge et les tendances saisonnières pour optimiser les campagnes marketing.</p>
+      </div>
+      <div class="modal-section-title">Résultats clés</div>
+      <div class="modal-metrics">
+        <div class="metric"><span class="metric-num">+23%</span><span class="metric-label">Revenu top segment</span></div>
+        <div class="metric"><span class="metric-num">5</span><span class="metric-label">Segments identifiés</span></div>
+        <div class="metric"><span class="metric-num">100k+</span><span class="metric-label">Transactions analysées</span></div>
+        <div class="metric"><span class="metric-num">Q4</span><span class="metric-label">Pic saisonnier</span></div>
+      </div>
+      <div class="modal-section-title">Méthodologie</div>
+      <div class="modal-text">
+        <p>1. Nettoyage des données en SQL (doublons, valeurs nulles, normalisation des dates).</p>
+        <p>2. Segmentation RFM (Récence, Fréquence, Montant) via des CTEs imbriquées.</p>
+        <p>3. Analyse des tendances mensuelles et par catégorie de produit.</p>
+        <p>4. Visualisation dans Tableau avec dashboard interactif filtrable.</p>
+      </div>
+      <div class="modal-section-title">Exemple de requête SQL</div>
+      <div class="modal-code"><pre><span class="cm">-- Segmentation RFM des clients</span>
+<span class="kw">WITH</span> rfm <span class="kw">AS</span> (
+  <span class="kw">SELECT</span>
+    customer_id,
+    <span class="fn">MAX</span>(order_date)       <span class="kw">AS</span> last_order,
+    <span class="fn">COUNT</span>(*)             <span class="kw">AS</span> frequency,
+    <span class="fn">SUM</span>(total_amount)    <span class="kw">AS</span> monetary
+  <span class="kw">FROM</span> orders
+  <span class="kw">WHERE</span> order_date >= <span class="fn">DATE_SUB</span>(<span class="fn">NOW</span>(), <span class="fn">INTERVAL</span> <span class="st">12</span> <span class="kw">MONTH</span>)
+  <span class="kw">GROUP BY</span> customer_id
+)
+<span class="kw">SELECT</span>
+  customer_id,
+  <span class="fn">DATEDIFF</span>(<span class="fn">NOW</span>(), last_order) <span class="kw">AS</span> recency_days,
+  frequency,
+  <span class="fn">ROUND</span>(monetary, <span class="st">2</span>)         <span class="kw">AS</span> total_spend,
+  <span class="kw">CASE</span>
+    <span class="kw">WHEN</span> frequency >= <span class="st">10</span> <span class="kw">AND</span> monetary >= <span class="st">500</span> <span class="kw">THEN</span> <span class="st">'Champions'</span>
+    <span class="kw">WHEN</span> frequency >= <span class="st">5</span>  <span class="kw">AND</span> monetary >= <span class="st">200</span> <span class="kw">THEN</span> <span class="st">'Fidèles'</span>
+    <span class="kw">WHEN</span> recency_days  <= <span class="st">30</span>              <span class="kw">THEN</span> <span class="st">'Récents'</span>
+    <span class="kw">ELSE</span> <span class="st">'À risque'</span>
+  <span class="kw">END</span> <span class="kw">AS</span> segment
+<span class="kw">FROM</span> rfm
+<span class="kw">ORDER BY</span> monetary <span class="kw">DESC</span>;</pre></div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-fill" target="_blank">Voir sur GitHub</a>
+        <a href="#" class="btn" target="_blank">Dashboard Tableau</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALE 2 -->
+<div class="modal-overlay" id="modal-p2" onclick="closeOnOverlay(event,'p2')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('p2')">✕</button>
+    <div class="modal-gallery">
+      <div class="gallery-track" id="track-p2">
+        <div class="gallery-slide">
+          <div class="gallery-slide-placeholder">
+            <div class="gallery-placeholder-icon">🖼️</div>
+            Vue du dashboard Power BI<br><small>Remplacez par &lt;img src="images/p2-slide1.png"&gt;</small>
+          </div>
+        </div>
+        <div class="gallery-slide">
+          <div class="gallery-slide-placeholder">
+            <div class="gallery-placeholder-icon">📊</div>
+            Turnover par département<br><small>Remplacez par &lt;img src="images/p2-slide2.png"&gt;</small>
+          </div>
+        </div>
+      </div>
+      <button class="gallery-arrow prev" onclick="slide('p2',-1)">‹</button>
+      <button class="gallery-arrow next" onclick="slide('p2',1)">›</button>
+      <div class="gallery-nav" id="dots-p2"></div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-meta">
+        <span class="modal-tag">SQL · RH</span>
+        <span class="modal-date">Janvier 2025</span>
+      </div>
+      <div class="modal-title">Dashboard RH &amp; turnover</div>
+      <div class="modal-tools">
+        <span class="tool-badge">MySQL</span>
+        <span class="tool-badge">Power BI</span>
+        <span class="tool-badge">Excel</span>
+      </div>
+      <div class="modal-section-title">Contexte &amp; objectif</div>
+      <div class="modal-text">
+        <p>Analyse des données RH d'une entreprise fictive (dataset IBM HR Analytics) pour identifier les facteurs de départ volontaire. L'objectif : donner aux équipes RH un outil de prédiction du risque de turnover par département et profil d'employé.</p>
+      </div>
+      <div class="modal-section-title">Résultats clés</div>
+      <div class="modal-metrics">
+        <div class="metric"><span class="metric-num">16%</span><span class="metric-label">Taux turnover global</span></div>
+        <div class="metric"><span class="metric-num">3</span><span class="metric-label">Facteurs principaux</span></div>
+        <div class="metric"><span class="metric-num">1 470</span><span class="metric-label">Employés analysés</span></div>
+      </div>
+      <div class="modal-section-title">Méthodologie</div>
+      <div class="modal-text">
+        <p>Nettoyage et exploration en MySQL, puis visualisation dans Power BI. Identification des corrélations entre turnover et variables clés : ancienneté, distance domicile-travail, satisfaction, revenus. Création d'un score de risque par département.</p>
+      </div>
+      <div class="modal-section-title">Exemple de requête SQL</div>
+      <div class="modal-code"><pre><span class="cm">-- Taux de turnover par département et tranche d'âge</span>
+<span class="kw">SELECT</span>
+  department,
+  <span class="kw">CASE</span>
+    <span class="kw">WHEN</span> age < <span class="st">30</span>              <span class="kw">THEN</span> <span class="st">'Moins de 30 ans'</span>
+    <span class="kw">WHEN</span> age <span class="kw">BETWEEN</span> <span class="st">30</span> <span class="kw">AND</span> <span class="st">45</span> <span class="kw">THEN</span> <span class="st">'30 à 45 ans'</span>
+    <span class="kw">ELSE</span>                          <span class="st">'Plus de 45 ans'</span>
+  <span class="kw">END</span>                            <span class="kw">AS</span> age_group,
+  <span class="fn">COUNT</span>(*)                       <span class="kw">AS</span> total,
+  <span class="fn">SUM</span>(<span class="kw">CASE</span> <span class="kw">WHEN</span> attrition = <span class="st">'Yes'</span>
+            <span class="kw">THEN</span> <span class="st">1</span> <span class="kw">ELSE</span> <span class="st">0</span> <span class="kw">END</span>) <span class="kw">AS</span> left_count,
+  <span class="fn">ROUND</span>(<span class="st">100.0</span> *
+    <span class="fn">SUM</span>(<span class="kw">CASE</span> <span class="kw">WHEN</span> attrition = <span class="st">'Yes'</span>
+              <span class="kw">THEN</span> <span class="st">1</span> <span class="kw">ELSE</span> <span class="st">0</span> <span class="kw">END</span>) / <span class="fn">COUNT</span>(*), <span class="st">1</span>
+  )                              <span class="kw">AS</span> turnover_pct
+<span class="kw">FROM</span> hr_data
+<span class="kw">GROUP BY</span> department, age_group
+<span class="kw">ORDER BY</span> turnover_pct <span class="kw">DESC</span>;</pre></div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-fill" target="_blank">Voir sur GitHub</a>
+        <a href="#" class="btn" target="_blank">Rapport Power BI</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALE 3 -->
+<div class="modal-overlay" id="modal-p3" onclick="closeOnOverlay(event,'p3')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('p3')">✕</button>
+    <div class="modal-gallery">
+      <div class="gallery-track" id="track-p3">
+        <div class="gallery-slide">
+          <div class="gallery-slide-placeholder">
+            <div class="gallery-placeholder-icon">🖼️</div>
+            Heatmap de rétention<br><small>Remplacez par &lt;img src="images/p3-slide1.png"&gt;</small>
+          </div>
+        </div>
+        <div class="gallery-slide">
+          <div class="gallery-slide-placeholder">
+            <div class="gallery-placeholder-icon">📈</div>
+            Courbes LTV par cohorte<br><small>Remplacez par &lt;img src="images/p3-slide2.png"&gt;</small>
+          </div>
+        </div>
+      </div>
+      <button class="gallery-arrow prev" onclick="slide('p3',-1)">‹</button>
+      <button class="gallery-arrow next" onclick="slide('p3',1)">›</button>
+      <div class="gallery-nav" id="dots-p3"></div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-meta">
+        <span class="modal-tag">SQL · Finance</span>
+        <span class="modal-date">Novembre 2024</span>
+      </div>
+      <div class="modal-title">Analyse de cohortes clients</div>
+      <div class="modal-tools">
+        <span class="tool-badge">PostgreSQL</span>
+        <span class="tool-badge">Google Sheets</span>
+      </div>
+      <div class="modal-section-title">Contexte &amp; objectif</div>
+      <div class="modal-text">
+        <p>Étude du comportement d'achat par cohorte mensuelle sur un dataset e-commerce. Objectif : mesurer le taux de rétention et le LTV (lifetime value) mois par mois pour orienter la stratégie d'acquisition et de fidélisation client.</p>
+      </div>
+      <div class="modal-section-title">Résultats clés</div>
+      <div class="modal-metrics">
+        <div class="metric"><span class="metric-num">34%</span><span class="metric-label">Rétention M+1</span></div>
+        <div class="metric"><span class="metric-num">12</span><span class="metric-label">Cohortes analysées</span></div>
+        <div class="metric"><span class="metric-num">$87</span><span class="metric-label">LTV moyen à 6 mois</span></div>
+      </div>
+      <div class="modal-section-title">Méthodologie</div>
+      <div class="modal-text">
+        <p>Construction de la matrice de cohortes en PostgreSQL pur avec CTEs, puis export vers Google Sheets pour la visualisation en heatmap conditionnelle. Calcul du taux de rétention relatif et absolu, identification des cohortes à forte valeur.</p>
+      </div>
+      <div class="modal-section-title">Exemple de requête SQL</div>
+      <div class="modal-code"><pre><span class="cm">-- Matrice de rétention par cohorte mensuelle</span>
+<span class="kw">WITH</span> first_order <span class="kw">AS</span> (
+  <span class="kw">SELECT</span>
+    customer_id,
+    <span class="fn">DATE_TRUNC</span>(<span class="st">'month'</span>, <span class="fn">MIN</span>(order_date)) <span class="kw">AS</span> cohort_month
+  <span class="kw">FROM</span> orders
+  <span class="kw">GROUP BY</span> customer_id
+),
+activity <span class="kw">AS</span> (
+  <span class="kw">SELECT</span>
+    o.customer_id,
+    f.cohort_month,
+    <span class="fn">DATE_TRUNC</span>(<span class="st">'month'</span>, o.order_date) <span class="kw">AS</span> order_month
+  <span class="kw">FROM</span> orders o
+  <span class="kw">JOIN</span> first_order f <span class="kw">USING</span> (customer_id)
+)
+<span class="kw">SELECT</span>
+  cohort_month,
+  <span class="fn">EXTRACT</span>(<span class="st">'month'</span> <span class="kw">FROM</span> <span class="fn">AGE</span>(order_month, cohort_month)) <span class="kw">AS</span> month_number,
+  <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> customer_id)                             <span class="kw">AS</span> customers
+<span class="kw">FROM</span> activity
+<span class="kw">GROUP BY</span> <span class="st">1</span>, <span class="st">2</span>
+<span class="kw">ORDER BY</span> <span class="st">1</span>, <span class="st">2</span>;</pre></div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-fill" target="_blank">Voir sur GitHub</a>
+        <a href="#" class="btn" target="_blank">Google Sheets</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const state = {};
+function initGallery(id) {
+  const track = document.getElementById('track-'+id);
+  const slides = track.querySelectorAll('.gallery-slide');
+  const dotsEl = document.getElementById('dots-'+id);
+  state[id] = { index: 0, total: slides.length };
+  dotsEl.innerHTML = '';
+  slides.forEach(function(_, i) {
+    const d = document.createElement('button');
+    d.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+    d.onclick = function(e) { e.stopPropagation(); goTo(id, i); };
+    dotsEl.appendChild(d);
+  });
+}
+function goTo(id, idx) {
+  const s = state[id];
+  s.index = Math.max(0, Math.min(idx, s.total - 1));
+  document.getElementById('track-'+id).style.transform = 'translateX(-' + (s.index * 100) + '%)';
+  document.getElementById('dots-'+id).querySelectorAll('.gallery-dot').forEach(function(d, i) {
+    d.classList.toggle('active', i === s.index);
+  });
+}
+function slide(id, dir) {
+  event.stopPropagation();
+  const s = state[id];
+  goTo(id, (s.index + dir + s.total) % s.total);
+}
+function openModal(id) {
+  document.getElementById('modal-'+id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (!state[id]) initGallery(id);
+  goTo(id, 0);
+}
+function closeModal(id) {
+  document.getElementById('modal-'+id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeOnOverlay(e, id) {
+  if (e.target === document.getElementById('modal-'+id)) closeModal(id);
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(function(el) {
+      el.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+});
+</script>
+</body>
+</html>
